@@ -14,11 +14,6 @@ import Link from '@material-ui/core/Link'
 import logoImage from './logo.png'
 
 import { AuthContext } from '../contexts/authContext'
-// @ts-ignore
-import createGuest  from 'cross-domain-storage/guest'
-
-
-// import localStorage from 'cross-domain-storage/host'
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -45,17 +40,6 @@ export default function Home() {
   const auth = useContext(AuthContext)
 
   function signOutClicked() {
-    var tokenStorage = createGuest('http://localhost:3000/accessStorage');
-    // var localtokenStorage = createGuest('http://localhost:4000/accessStorage')
-    Object.keys(localStorage).forEach(key => {
-      console.log('key', key);
-      tokenStorage.remove(key, localStorage[key])
-    })
-    tokenStorage.close();
-    // Object.keys(localStorage).forEach(key => {
-    //   console.log('key', key);
-    //   localtokenStorage.remove(key, localStorage[key])
-    // })
     auth.signOut()
     history.push('/')
   }

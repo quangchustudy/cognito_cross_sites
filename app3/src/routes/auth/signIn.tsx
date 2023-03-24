@@ -14,10 +14,6 @@ import { Password, Username } from '../../components/authComponents'
 
 import { AuthContext } from '../../contexts/authContext'
 
-// @ts-ignore
-import createGuest  from 'cross-domain-storage/guest'
-
-
 const useStyles = makeStyles({
   root: {
     height: '100vh',
@@ -40,23 +36,9 @@ const SignIn: React.FunctionComponent<{}> = () => {
 
   const authContext = useContext(AuthContext)
 
-  const handleSendToken = () => {
-    // send token
-    if(!localStorage) return
-
-    var tokenStorage = createGuest('http://localhost:3000/accessStorage');
-    Object.keys(localStorage).forEach(key => {
-      console.log('key', key);
-      tokenStorage.set(key, localStorage[key])
-    })
-  }
-
   const signInClicked = async () => {
     try {
       await authContext.signInWithEmail(username, password)
-
-      handleSendToken()
-
       history.push('home')
     } catch (err: any) {
       if (err.code === 'UserNotConfirmedException') {

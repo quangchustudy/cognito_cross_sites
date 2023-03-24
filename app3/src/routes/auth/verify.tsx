@@ -9,14 +9,10 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
-import { useValidPassword, useValidUsername } from '../../hooks/useAuthHooks'
-import { Password, Username } from '../../components/authComponents'
+import { useValidCode, useValidUsername } from '../../hooks/useAuthHooks'
+import { Code, Username } from '../../components/authComponents'
 
 import { AuthContext } from '../../contexts/authContext'
-
-// @ts-ignore
-import createGuest  from 'cross-domain-storage/guest'
-
 
 const useStyles = makeStyles({
   root: {
@@ -27,48 +23,30 @@ const useStyles = makeStyles({
   },
 })
 
-const SignIn: React.FunctionComponent<{}> = () => {
+const VerifyCode: React.FunctionComponent<{}> = () => {
   const classes = useStyles()
 
   const { username, setUsername, usernameIsValid } = useValidUsername('')
-  const { password, setPassword, passwordIsValid } = useValidPassword('')
+  const { code, setCode, codeIsValid } = useValidCode('')
   const [error, setError] = useState('')
 
-  const isValid = !usernameIsValid || username.length === 0 || !passwordIsValid || password.length === 0
+  const isValid = !usernameIsValid || username.length === 0 || !codeIsValid || code.length === 0
 
   const history = useHistory()
 
   const authContext = useContext(AuthContext)
 
-  const handleSendToken = () => {
-    // send token
-    if(!localStorage) return
-
-    var tokenStorage = createGuest('http://localhost:3000/accessStorage');
-    Object.keys(localStorage).forEach(key => {
-      console.log('key', key);
-      tokenStorage.set(key, localStorage[key])
-    })
-  }
-
-  const signInClicked = async () => {
+  const sendClicked = async () => {
     try {
-      await authContext.signInWithEmail(username, password)
-
-      handleSendToken()
-
-      history.push('home')
-    } catch (err: any) {
-      if (err.code === 'UserNotConfirmedException') {
-        history.push('verify')
-      } else {
-        setError(err.message)
-      }
+      await authContext.verifyCode(username, code)
+      history.push('signin')
+    } catch (err) {
+      setError('Invalid Code')
     }
   }
 
   const passwordResetClicked = async () => {
-    history.push('requestcode')
+    history.push('/resetpassword')
   }
 
   return (
@@ -78,7 +56,7 @@ const SignIn: React.FunctionComponent<{}> = () => {
           <Grid container direction="column" justify="center" alignItems="center">
             {/* Title */}
             <Box m={2}>
-              <Typography variant="h3">Sign in</Typography>
+              <Typography variant="h3">Send Code</Typography>
             </Box>
 
             {/* Sign In Form */}
@@ -87,21 +65,19 @@ const SignIn: React.FunctionComponent<{}> = () => {
               <Username usernameIsValid={usernameIsValid} setUsername={setUsername} />{' '}
             </Box>
             <Box width="80%" m={1}>
-              <Password label="Password" passwordIsValid={passwordIsValid} setPassword={setPassword} />
+              <Code codeIsValid={codeIsValid} setCode={setCode} />
               <Grid container direction="row" justify="flex-start" alignItems="center">
                 <Box onClick={passwordResetClicked} mt={2}>
                   <Typography className={classes.hover} variant="body2">
-                    Forgot Password?
+                    Resend Code
                   </Typography>
+                  <Box mt={2}>
+                    <Typography color="error" variant="body2">
+                      {error}
+                    </Typography>
+                  </Box>
                 </Box>
               </Grid>
-            </Box>
-
-            {/* Error */}
-            <Box mt={2}>
-              <Typography color="error" variant="body2">
-                {error}
-              </Typography>
             </Box>
 
             {/* Buttons */}
@@ -113,18 +89,11 @@ const SignIn: React.FunctionComponent<{}> = () => {
                   </Button>
                 </Box>
                 <Box m={1}>
-                  <Button disabled={isValid} color="primary" variant="contained" onClick={signInClicked}>
-                    Sign In
+                  <Button disabled={isValid} color="primary" variant="contained" onClick={sendClicked}>
+                    Send
                   </Button>
                 </Box>
               </Grid>
-            </Box>
-            <Box mt={2}>
-              <Box onClick={() => history.push('signup')}>
-                <Typography className={classes.hover} variant="body1">
-                  Register a new account
-                </Typography>
-              </Box>
             </Box>
           </Grid>
         </Paper>
@@ -133,4 +102,4 @@ const SignIn: React.FunctionComponent<{}> = () => {
   )
 }
 
-export default SignIn
+export default VerifyCode

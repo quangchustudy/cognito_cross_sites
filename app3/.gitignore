@@ -11,9 +11,6 @@
 # production
 /build
 
-# app3 for testing
-/app3
-
 # misc
 .DS_Store
 .env.local

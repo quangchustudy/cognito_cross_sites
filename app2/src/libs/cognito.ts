@@ -107,9 +107,11 @@ export async function signInWithEmail(username: string, password: string) {
   })
 }
 
-export function signOut() {
+export function signOut(callbacks: { onSuccess: (msg: string) => void; onFailure: (err: Error) => void }) {
   if (currentUser) {
-    currentUser.signOut()
+    //eneccccvfrbjjfrfjkcfvbcgcbeivricullgublfibju
+    // currentUser.signOut()
+    currentUser.globalSignOut(callbacks)
   }
 }
 

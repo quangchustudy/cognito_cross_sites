@@ -96,7 +96,6 @@ const AuthProvider = ({ children }: Props) => {
   }
 
   function signOut() {
-    // @ts-ignore
     cognito.signOut()
     setAuthStatus(AuthStatus.SignedOut)
   }
