@@ -5,10 +5,10 @@
 Testing for cross sites using aws cognito:
 
 ## Scenario
-We'll have 2 websites:
-- website 1: http://localhost:4000
+We'll have 2 websites with local start
+- website 1: http://localhost:4000 
 - website 2: http://localhost:3000
-Testing flow:
+## Testing flow:
 - Open web1 -> login to web1 -> open web 2 to check that we don't need to login to see the home page of web2
 - Logout web1 -> refresh web 2 to see whether we still can see the home page of web2
 
@@ -55,7 +55,7 @@ npm start
 - Note: for macbook then we adjust file package json in app folder as below
 ```json
   "scripts": {
-    "start": "PORT=3000 && react-scripts start",
+    "start": "PORT=4000 && react-scripts start",
     ....
   },
 ```
@@ -67,4 +67,6 @@ npm install --force
 npm start
 ```
 
-## Pls ignore app3 if it is
+## Result
+
+
