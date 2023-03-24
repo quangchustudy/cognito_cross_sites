@@ -46,16 +46,11 @@ export default function Home() {
 
   function signOutClicked() {
     var tokenStorage = createGuest('http://localhost:3000/accessStorage');
-    // var localtokenStorage = createGuest('http://localhost:4000/accessStorage')
     Object.keys(localStorage).forEach(key => {
       console.log('key', key);
       tokenStorage.remove(key, localStorage[key])
     })
     tokenStorage.close();
-    // Object.keys(localStorage).forEach(key => {
-    //   console.log('key', key);
-    //   localtokenStorage.remove(key, localStorage[key])
-    // })
     auth.signOut()
     history.push('/')
   }

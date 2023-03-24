@@ -16,6 +16,51 @@ We'll have 2 websites with local start
 
 [link](https://github.com/dbroadhurst/aws-cognito-react)
 
+## Code Notes
+- module in package.json with **cross-domain-storage** for token exchanging between 2 webs
+```json
+"dependencies": {
+    ....
+    "amazon-cognito-identity-js": "^5.2.9",
+    "cross-domain-storage": "^2.0.7",
+    ...
+  },
+```
+- signout function to invalidate all tokens provided by cognito in case of user do sign-out in ***cognito.ts***
+```javascript
+export function signOut(callbacks: { onSuccess: (msg: string) => void; onFailure: (err: Error) => void }) {
+  if (currentUser) {
+    //currentUser.signOut()
+    currentUser.globalSignOut(callbacks)
+  }
+}
+```
+- handle session token from web1 to web2 in case login in web1 and token will be set to web2 with allowed origin on web2 in signIn.tst of web1
+```javascript
+  const handleSendToken = () => {
+    // send token
+    if(!localStorage) return
+
+    var tokenStorage = createGuest('http://localhost:3000/accessStorage');
+    Object.keys(localStorage).forEach(key => {
+      console.log('key', key);
+      tokenStorage.set(key, localStorage[key])
+    })
+  }
+```
+- allow origin on web2 to accept access from web1 on App.tsx
+```javascript
+const App: React.FunctionComponent = () => {
+  useEffect(() => {
+    createHost([
+      {
+        origin: "http://localhost:4000",
+        allowedMethods: ["set", "remove"],
+      },
+    ]);
+  }, []);
+```
+
 ## AWS Cognito Infrastructure setup
 
 To help deploy the AWS Cognito infrastructure I've create an Amazon Cloud Development (CDK) script
