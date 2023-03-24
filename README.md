@@ -21,7 +21,10 @@ Testing flow:
 To help deploy the AWS Cognito infrastructure I've create an Amazon Cloud Development (CDK) script
 
 CDK set up instructions can be found [here](https://docs.aws.amazon.com/cdk/latest/guide/cli.html)
-
+Setup AWS configure with access keys from your account
+```bash
+aws configure
+```
 CDK deploy instructions
 
 ```bash

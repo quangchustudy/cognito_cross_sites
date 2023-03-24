@@ -63,19 +63,19 @@ export default function Home() {
                     <GitHubIcon fontSize="large" />
                   </Box>
                   <Typography className={classes.title} variant="h3">
-                    AWS Cognito Starter Home
+                    AWS Cognito Starter Home FOR WEB2
                   </Typography>
                 </Grid>
               </Link>
             </Box>
             <Box m={2}>
               <Button onClick={signOutClicked} variant="contained" color="primary">
-                Sign Out
+                Sign Out Web2
               </Button>
             </Box>
             <Box m={2}>
               <Button onClick={changePasswordClicked} variant="contained" color="primary">
-                Change Password
+                Change Password Web2
               </Button>
             </Box>
           </Grid>
