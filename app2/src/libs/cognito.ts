@@ -109,7 +109,8 @@ export async function signInWithEmail(username: string, password: string) {
 
 export function signOut() {
   if (currentUser) {
-    currentUser.signOut()
+    // currentUser.signOut()
+    currentUser.globalSignOut();
   }
 }
 

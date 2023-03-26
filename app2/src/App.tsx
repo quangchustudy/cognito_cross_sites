@@ -57,6 +57,7 @@ const MainRoute: React.FunctionComponent = () => (
 
 const App: React.FunctionComponent = () => {
     useEffect(() => {
+        document.title = "Cognito Starter Web2"
         createHost([
             {
                 origin: "http://localhost:4000",

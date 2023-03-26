@@ -1,4 +1,5 @@
-import React from 'react'
+// import React from 'react'
+import React, {useEffect} from 'react'
 import './App.css'
 
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
@@ -53,7 +54,11 @@ const MainRoute: React.FunctionComponent = () => (
   </Router>
 )
 
-const App: React.FunctionComponent = () => (
+const App: React.FunctionComponent = () => {
+    useEffect(() => {
+        document.title = "Cognito Starter Web1"
+    }, []);
+    return (
   <ThemeProvider theme={lightTheme}>
     <CssBaseline />
     <AuthProvider>
@@ -66,5 +71,6 @@ const App: React.FunctionComponent = () => (
     </AuthProvider>
   </ThemeProvider>
 )
+}
 
 export default App
