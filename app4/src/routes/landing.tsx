@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
@@ -12,6 +12,9 @@ import Link from '@material-ui/core/Link'
 import GitHubIcon from '@material-ui/icons/GitHub'
 
 import logoImage from './logo.png'
+
+// @ts-ignore
+import createGuest  from 'cross-domain-storage/guest'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +30,6 @@ const Landing: React.FunctionComponent = () => {
 
   const history = useHistory()
 
-  const signIn = () => {
-    history.push('/signin')
-  }
-
   return (
     <Grid container>
       <Grid className={classes.root} container direction="column" justify="center" alignItems="center">
@@ -44,15 +43,12 @@ const Landing: React.FunctionComponent = () => {
                 <GitHubIcon fontSize="large" />
               </Box>
               <Typography className={classes.title} variant="h3">
-                AWS Cognito Starter FOR WEB2
+                AWS Cognito Starter
               </Typography>
             </Grid>
           </Link>
         </Box>
         <Box m={2}>
-          <Button onClick={signIn} variant="contained" color="primary">
-            SIGN IN WEB2
-          </Button>
         </Box>
       </Grid>
     </Grid>

@@ -9,8 +9,8 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 
-import { useValidPassword } from '../../hooks/useAuthHooks'
-import { Password } from '../../components/authComponents'
+import { useValidEmail, useValidPassword, useValidUsername } from '../../hooks/useAuthHooks'
+import { Email, Password, Username } from '../../components/authComponents'
 
 import { AuthContext } from '../../contexts/authContext'
 
@@ -20,43 +20,39 @@ const useStyles = makeStyles({
   },
 })
 
-export default function ChangePassword() {
+const SignUp: React.FunctionComponent<{}> = () => {
   const classes = useStyles()
 
+  const { email, setEmail, emailIsValid } = useValidEmail('')
+  const { password, setPassword, passwordIsValid } = useValidPassword('')
+  const { username, setUsername, usernameIsValid } = useValidUsername('')
   const [error, setError] = useState('')
-  const [reset, setReset] = useState(false)
+  const [created, setCreated] = useState(false)
 
   const {
-    password: oldPassword,
-    setPassword: setOldPassword,
-    passwordIsValid: oldPasswordIsValid,
+    password: passwordConfirm,
+    setPassword: setPasswordConfirm,
+    passwordIsValid: passwordConfirmIsValid,
   } = useValidPassword('')
 
-  const {
-    password: newPassword,
-    setPassword: setNewPassword,
-    passwordIsValid: newPasswordIsValid,
-  } = useValidPassword('')
-
-  const isValid = !oldPasswordIsValid || oldPassword.length === 0 || !newPasswordIsValid || newPassword.length === 0
+  const isValid =
+    !emailIsValid ||
+    email.length === 0 ||
+    !usernameIsValid ||
+    username.length === 0 ||
+    !passwordIsValid ||
+    password.length === 0 ||
+    !passwordConfirmIsValid ||
+    passwordConfirm.length === 0
 
   const history = useHistory()
 
   const authContext = useContext(AuthContext)
 
-  const changePassword = async () => {
+  const signInClicked = async () => {
     try {
-      await authContext.changePassword(oldPassword, newPassword)
-      setReset(true)
-    } catch (err: any) {
-      setError(err.message)
-    }
-  }
-
-  const signOut = async () => {
-    try {
-      await authContext.signOut()
-      history.push('/')
+      await authContext.signUpWithEmail(username, email, password)
+      setCreated(true)
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message)
@@ -64,15 +60,20 @@ export default function ChangePassword() {
     }
   }
 
-  const updatePassword = (
+  const signUp = (
     <>
       <Box width="80%" m={1}>
-        <Password label="Old Password" passwordIsValid={oldPasswordIsValid} setPassword={setOldPassword} />
+        <Email emailIsValid={emailIsValid} setEmail={setEmail} />
       </Box>
       <Box width="80%" m={1}>
-        <Password label="Password" passwordIsValid={newPasswordIsValid} setPassword={setNewPassword} />
+        <Username usernameIsValid={usernameIsValid} setUsername={setUsername} />
       </Box>
-      {/* Error */}
+      <Box width="80%" m={1}>
+        <Password label="Password" passwordIsValid={passwordIsValid} setPassword={setPassword} />
+      </Box>
+      <Box width="80%" m={1}>
+        <Password label="Confirm Password" passwordIsValid={passwordConfirmIsValid} setPassword={setPasswordConfirm} />
+      </Box>
       <Box mt={2}>
         <Typography color="error" variant="body2">
           {error}
@@ -88,8 +89,8 @@ export default function ChangePassword() {
             </Button>
           </Box>
           <Box m={1}>
-            <Button disabled={isValid} color="primary" variant="contained" onClick={changePassword}>
-              Change Password
+            <Button disabled={isValid} color="primary" variant="contained" onClick={signInClicked}>
+              Sign Up
             </Button>
           </Box>
         </Grid>
@@ -97,13 +98,14 @@ export default function ChangePassword() {
     </>
   )
 
-  const passwordReset = (
+  const accountCreated = (
     <>
-      <Typography variant="h5">{`Password Changed`}</Typography>
+      <Typography variant="h5">{`Created ${username} account`}</Typography>
+      <Typography variant="h6">{`Verfiy Code sent to ${email}`}</Typography>
 
       <Box m={4}>
-        <Button onClick={signOut} color="primary" variant="contained">
-          Sign In
+        <Button onClick={() => history.push('/verify')} color="primary" variant="contained">
+          Send Code
         </Button>
       </Box>
     </>
@@ -117,14 +119,16 @@ export default function ChangePassword() {
             {/* Title */}
             <Box m={3}>
               <Grid container direction="row" justify="center" alignItems="center">
-                <Typography variant="h3">Change Password</Typography>
+                <Typography variant="h3">Sign Up</Typography>
               </Grid>
             </Box>
 
-            {!reset ? updatePassword : passwordReset}
+            {!created ? signUp : accountCreated}
           </Grid>
         </Paper>
       </Grid>
     </Grid>
   )
 }
+
+export default SignUp

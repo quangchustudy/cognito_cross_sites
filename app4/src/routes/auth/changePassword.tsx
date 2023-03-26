@@ -67,10 +67,10 @@ export default function ChangePassword() {
   const updatePassword = (
     <>
       <Box width="80%" m={1}>
-        <Password label="Old Password" passwordIsValid={oldPasswordIsValid} setPassword={setOldPassword} />
+        <Password label="Old Password web2" passwordIsValid={oldPasswordIsValid} setPassword={setOldPassword} />
       </Box>
       <Box width="80%" m={1}>
-        <Password label="Password" passwordIsValid={newPasswordIsValid} setPassword={setNewPassword} />
+        <Password label="Password web2" passwordIsValid={newPasswordIsValid} setPassword={setNewPassword} />
       </Box>
       {/* Error */}
       <Box mt={2}>

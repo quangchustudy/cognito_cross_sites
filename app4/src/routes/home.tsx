@@ -70,12 +70,12 @@ export default function Home() {
             </Box>
             <Box m={2}>
               <Button onClick={signOutClicked} variant="contained" color="primary">
-                Sign Out WEB2
+                Sign Out Web2
               </Button>
             </Box>
             <Box m={2}>
               <Button onClick={changePasswordClicked} variant="contained" color="primary">
-                Change Password WEB2
+                Change Password Web2
               </Button>
             </Box>
           </Grid>

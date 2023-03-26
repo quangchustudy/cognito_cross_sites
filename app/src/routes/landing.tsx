@@ -44,14 +44,14 @@ const Landing: React.FunctionComponent = () => {
                 <GitHubIcon fontSize="large" />
               </Box>
               <Typography className={classes.title} variant="h3">
-                AWS Cognito Starter
+                AWS Cognito Starter FOR WEB1
               </Typography>
             </Grid>
           </Link>
         </Box>
         <Box m={2}>
           <Button onClick={signIn} variant="contained" color="primary">
-            SIGN IN
+            SIGN IN WEB1
           </Button>
         </Box>
       </Grid>
